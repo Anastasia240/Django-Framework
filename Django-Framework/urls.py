@@ -17,16 +17,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView, ListView, CreateView, UpdateView, DetailView, DeleteView, View, \
     TemplateView
+from mainapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', RedirectView.as_view(url='mainapp')),
-    path('mainapp', include('mainapp.urls')),
+    path('', RedirectView.as_view(url='mainapp/')),
+    path('mainapp/', include('mainapp.urls', namespace='mainapp')),
 
-    path('contacts/', include('contacts.urls')),
-    path('courses/', include('courses.urls')),
-    path('docsite/', include('docsite.urls')),
-    path('index', include('index.urls')),
-    path('login/', include('login.urls')),
-    path('news/', include('news.urls')),
+
+    #path('contacts/', include('contacts.urls')),
+    #path('courses/', include('courses.urls')),
+    #path('docsite/', include('docsite.urls')),
+    #path('index', include('index.urls')),
+    #path('login/', include('login.urls')),
+    #path('news/', include('news.urls')),
 ]
