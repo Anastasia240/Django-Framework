@@ -1,7 +1,11 @@
 from django.shortcuts import render
+import json
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from datetime import datetime
+from django.conf import settings
+
+from mainapp.models import News
 
 
 class ContactsView(TemplateView):
@@ -20,49 +24,19 @@ class IndexView(TemplateView):
     template_name = 'mainapp/index.html'
 
 
-def get_context_data(self, **kwargs):
-    context_data = super().get_context_data(**kwargs)
-    context_data['object_list'] = [
-        {
-            'title': 'Новость раз',
-            'preview': 'Превью к новости раз',
-            'date': '2022-05-01'
-        },
-
-        {
-            'title': 'Новость два',
-            'preview': 'Превью к новости два',
-            'date': '2022-05-02'
-        },
-        {
-            'title': 'Новость три',
-            'preview': 'Превью к новости три',
-            'date': '2022-05-03'
-        },
-        {
-            'title': 'Новость четыре ',
-            'preview': 'Превью к новости четыре',
-            'date': '2022-05-04'
-        },
-        {
-            'title': 'Новость пять',
-            'preview': 'Превью к новости пять',
-            'date': '2022-05-05'
-        },
-
-        {
-            'title': 'Новость шесть',
-            'preview': 'Превью к новости шесть',
-            'date': '2022-05-06'
-        },
-
-    ]
-    return context_data
-
-
 class LoginView(TemplateView):
     template_name = 'mainapp/login.html'
 
 
 class NewsView(TemplateView):
     template_name = 'mainapp/news.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        #with open(settings.BASE_DIR / '001_news.json') as news_file:
+        context_data['object_list'] = News.objects.all()
+        return context_data
+
+    def get(self, *args, **kwargs):
+        query = self.request.GET.get('q', None)
+        return super.get(*args, **kwargs)
