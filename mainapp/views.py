@@ -1,7 +1,9 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
 import json
 from django.http import HttpResponse
-from django.views.generic import TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, DetailView, CreateView
 from datetime import datetime
 from django.conf import settings
 
@@ -29,14 +31,26 @@ class LoginView(TemplateView):
 
 
 class NewsView(TemplateView):
+    model = News
+    paginate_by = 5
     template_name = 'mainapp/news.html'
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        #with open(settings.BASE_DIR / '001_news.json') as news_file:
-        context_data['object_list'] = News.objects.all()
-        return context_data
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted=False)
+
+
+class NewsDetailView(DetailView):
+    model = News
+
+
+class NewsCreateView(PermissionRequiredMixin, CreateView):
+    model = News
+    fields = '__all__'
+    success_url = reverse_lazy('main:news')
+    permission_required = ('mainapp.add_news')
 
     def get(self, *args, **kwargs):
         query = self.request.GET.get('q', None)
         return super.get(*args, **kwargs)
+
+

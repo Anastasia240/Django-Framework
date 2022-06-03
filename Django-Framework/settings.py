@@ -57,7 +57,7 @@ ROOT_URLCONF = 'Django-Framework.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -150,3 +150,4 @@ AUTHENTICATION_BACKENDS = (
 
 SOCIAL_AUTH_GITHUB_KEY = 'c3dcc5ff15fce33f5aee'
 SOCIAL_AUTH_GITHUB_SECRET = '5d1b802fd8b8562479e2a9ead6b05d1e19e8b9d2'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
