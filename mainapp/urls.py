@@ -12,4 +12,6 @@ urlpatterns = [
     path('login/', views.LoginView.as_view(), name='login'),
     path('news/', views.NewsView.as_view(), name='news'),
 
+    path('logs/', views.LogView.as_view(), name='logs_list'),
+
 ]
